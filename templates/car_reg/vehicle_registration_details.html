@@ -93,26 +93,26 @@
                             Back
                         </a>
                         <div class="row">
-                            <input id="phash" type="text" disabled>
+                            <input id="phash" type="text" readonly>
                             <form action="" method="POST" class="col s12">
 
                                 {% csrf_token %}
 
                                 <div class="row">
                                     <div class="input-field col s12 m6">
-                                        <input name="name" id="name" type="text" class="validate" required disabled>
+                                        <input name="name" id="name" type="text" class="validate" readonly>
                                         <label for="value">*Full Names</label>
                                     </div>
                                     <div class="input-field col s12 m6">
-                                        <input name="national" id="national" type="text" class="validate" required disabled>
+                                        <input name="national" id="national" type="text" class="validate" readonly>
                                         <label for="value">*ID Number</label>
                                     </div>
                                     <div class="input-field col s12 m6">
-                                        <input name="mobile" id="mobile" type="number" class="validate" required disabled>
+                                        <input name="mobile" id="mobile" type="number" class="validate" readonly>
                                         <label for="value">*Mobile Phone Number</label>
                                     </div>
                                     <div class="input-field col s12 m6">
-                                        <input name="dob" id="dob" type="text" class="validate" required disabled>
+                                        <input name="dob" id="dob" type="text" class="validate" readonly>
                                         <label for="value">*Date of Birth</label>
                                     </div>
                                     <div class="input-field col s12 m6">
@@ -123,28 +123,28 @@
                                         <input name="email" id="email" type="text" class="validate" readonly>
                                         <label for="value">*Email</label>
                                     </div>
-                                    <div class="input-field col s12 m6">
-                                        <input name="phash" id="phash" type="text" class="validate" readonly>
+                                    <div hidden class="input-field col s12 m6">
+                                        <input name="phash" id="phash" type="hidden" class="validate" readonly>
                                         <label for="value">*Previous Hash</label>
                                     </div>
                                     <div class="input-field col s12 m6">
-                                        <input name="reg" id="reg" type="text" class="validate" required>
+                                        <input name="reg" id="reg" type="text" class="validate" readonly>
                                         <label for="value">*Car Plate Number</label>
                                     </div>
                                     <div class="input-field col s12 m6">
-                                        <input name="type" id="type" type="text" class="validate" required>
+                                        <input name="type" id="type" type="text" class="validate" readonly>
                                         <label for="value">*Vehicle Type</label>
                                     </div>
                                     <div class="input-field col s12 m6">
-                                        <input name="make" id="make" type="text" class="validate" required>
+                                        <input name="make" id="make" type="text" class="validate" readonly>
                                         <label for="value">*Vehicle Make</label>
                                     </div>
                                     <div class="input-field col s12 m6">
-                                        <input name="model" id="model" type="text" class="validate" required>
+                                        <input name="model" id="model" type="text" class="validate" readonly>
                                         <label for="value">*Vehicle Model</label>
                                     </div>
                                     <div class="input-field col s12 m6">
-                                        <input name="year" id="year" type="text" class="validate" required>
+                                        <input name="year" id="year" type="text" class="validate" readonly>
                                         <label for="value">*Year</label>
                                     </div>
 
@@ -154,7 +154,7 @@
 
                                 <div class="row">
                                     <div class="col s4">
-                                        <button class="btn maroon waves-effect waves-light " type="submit" name="submit"
+                                        <button class="btn maroon waves-effect waves-light " type="button" onclick="add_vehicle()"
                                                 id="addData">Submit
                                             <i class="material-icons right">send</i>
                                         </button>
@@ -188,7 +188,6 @@
 
     $(document).ready(function () {
         document.getElementById('phash').value = car.hash;
-        document.getElementById('top_hash').value = car.hash;
         document.getElementById('year').value = car.year;
         document.getElementById('type').value = car.type;
         document.getElementById('reg').value = car.reg_no;
@@ -202,6 +201,49 @@
         document.getElementById('email').value = user.email;
 
     });
+
+
+    var add_vehicle = function (){
+        console.log('before call');
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "/vehicle_reg/add_vehicle_owner",
+            "method": "POST",
+            "headers": {
+                "content-type": "application/x-www-form-urlencoded",
+                "cache-control": "no-cache"
+            },
+            "data": {
+                "reg": $('#reg').val(),
+                "type": $('#type').val(),
+                "make": $('#make').val(),
+                "model": $('#model').val(),
+                "year": $('#year').val(),
+                "name": $('#name').val(),
+                "national": $('#national').val(),
+                "mobile": $('#mobile').val(),
+                "dob": $('#dob').val(),
+                "pin": $('#pin').val(),
+                "email": $('#email').val()
+
+            }
+        };
+
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+            if (!response.error) {
+                localStorage.removeItem('carReg');
+                window.location.href = "/home";
+            }
+            else {
+                Materialize.toast('Vehicle Exists', 3000, 'rounded')
+            }
+        });
+
+        console.log('after')
+
+    }
 
 
 </script>

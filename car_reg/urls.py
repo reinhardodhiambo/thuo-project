@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from users.views import allUsers, addUsers, editUsers, login, register, administrator, login_user
+from users.views import allUsers, addUsers, editUsers, login, register, administrator, login_user, searchuser
 from vehicle_registration.views import index, addCarRegistrationView, carRegistration, carRegistrationOwner, \
     carTransfer, carTransferConfirmation, addCarDetails
 from vehicle_transfer.views import carOwner, carOwnerView
@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^users/all_users$', allUsers, name='users'),
     url(r'^users/add_users$', addUsers, name='add_users'),
+    url(r'^users/search/(?P<id>[^/]+)$', searchuser, name='search_user'),
     url(r'^users/edit_users$', editUsers, name='edit_users'),
     url(r'^user/login$', login_user),
     url(r'^vehicle_reg/add_vehicle$', carRegistration, name='add_vehicle'),
@@ -39,8 +40,8 @@ urlpatterns = [
     url(r'^home$', index, name='home'),
     url(r'^vehicle_registration_details$', addCarDetails, name='vehicle_registration_details'),
     url(r'^vehicle_registration$', addCarRegistrationView, name='vehicle_registration'),
-    url(r'^vehicle_owner$', carOwner, name='vehicle_owner'),
-    url(r'^vehicle_owner_details$', carOwnerView, name='vehicle_owner_details'),
+    url(r'^vehicle_owner/(?P<user>[^/]+)/$', carOwner, name='vehicle_owner'),
+    url(r'^vehicle_owner_details/(?P<vehicle>[^/]+)/$', carOwnerView, name='vehicle_owner_details'),
     url(r'^vehicle_confirmation$', carConfirmation, name='vehicle_confirmation'),
     url(r'^vehicle_confirmation_details$', carConfirmationView, name='vehicle_confirmation_details'),
 ]

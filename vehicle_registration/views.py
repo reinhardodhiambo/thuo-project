@@ -57,14 +57,15 @@ def hash_block(block):
 @api_view(http_method_names=['POST'])
 @renderer_classes((JSONRenderer,))
 def carRegistration(request):
-    car_reg = Vehicles.objects.filter(reg_no=request.data['reg']).values()
+    car_reg = Vehicles.objects.filter(reg_no=request.data['reg'].upper()).values()
     if car_reg:
         return Response({'error': 'Vehicle exist'})
     else:
         cars = dict()
         # cars = []
 
-        car_add = Vehicles(reg_no=request.data['reg'], vehicle_type=request.data['type'], make=request.data['make'],
+        car_add = Vehicles(reg_no=request.data['reg'].upper(), vehicle_type=request.data['type'],
+                           make=request.data['make'],
                            vehicle_model=request.data['model'], year_of_manufacture=request.data['year'])
         response = {'reg_no': car_add.reg_no.upper(), 'type': car_add.vehicle_type, 'make': car_add.make,
                     'model': car_add.vehicle_model, 'year': car_add.year_of_manufacture,
@@ -183,72 +184,45 @@ def _careg(request):
 
 
 def _registrationCarOwner(request):
-    car_owner = Owner.objects.all()
-
+    # car_owner = Owner.objects.all()
+    car_owner = Owner.objects.filter(reg_id=request.data['reg']).values()
     if car_owner:
-        for car in car_owner:
-            exist = car.reg_id
-            new = request.data['reg']
-
-            if exist == new:
-                print('Vehicle Already Registered')
-
+        return {'error': 'Vehicle exist'}
     else:
-
         owner = dict()
-
         # How many blocks should we add to the chain after the genesis block
-        num_of_blocks_to_add = 100
-        for i in range(0, num_of_blocks_to_add):
-            car_reg = Vehicles.objects.get(reg_no=request.data['reg'])
+        car_reg = Vehicles.objects.get(reg_no=request.data['reg'])
+        car_owner_add = Owner(fullname=request.data['name'], national_id=request.data['national'],
+                              mobile=request.data['mobile'],
+                              dob=request.data['dob'], pin=request.data['pin'],
+                              email=request.data['email'], reg_id=request.data['reg'],
+                              vehicle_type=request.data['type'], make=request.data['make'],
+                              vehicle_model=request.data['model'],
+                              year_of_manufacture=request.data['year'], previous_hash=car_reg.hash)
 
-            car_owner_add = Owner(fullname=request.data['name'], national_id=request.data['national'],
-                                  mobile=request.data['mobile'],
-                                  dob=request.data['dob'], pin=request.data['pin'],
-                                  email=request.data['email'], reg_id=request.data['reg'],
-                                  vehicle_type=request.data['type'], make=request.data['make'],
-                                  vehicle_model=request.data['model'],
-                                  year_of_manufacture=request.data['year'], previous_hash=car_reg.hash)
+        response = {'name': car_owner_add.fullname, 'national': car_owner_add.national_id,
+                    'mobile': car_owner_add.mobile, 'dob': car_owner_add.dob,
+                    'pin': car_owner_add.pin, 'email': car_owner_add.email,
+                    'reg_no': car_owner_add.reg_id, 'type': car_owner_add.vehicle_type,
+                    'make': car_owner_add.make, 'model': car_owner_add.vehicle_model,
+                    'year': car_owner_add.year_of_manufacture,
+                    'parent_hash': car_owner_add.previous_hash,
+                    'date_time': date.datetime.now()}
 
-            if car_owner_add:
-
-                response = {'name': car_owner_add.fullname, 'national': car_owner_add.national_id,
-                            'mobile': car_owner_add.mobile, 'dob': car_owner_add.dob,
-                            'pin': car_owner_add.pin, 'email': car_owner_add.email,
-                            'reg_no': car_owner_add.reg_id, 'type': car_owner_add.vehicle_type,
-                            'make': car_owner_add.make, 'model': car_owner_add.vehicle_model,
-                            'year': car_owner_add.year_of_manufacture,
-                            'parent_hash': car_owner_add.previous_hash,
-                            'date_time': date.datetime.now()}
-
-                blockHash = hash_block(response)
-                car_owner_add.hash = blockHash
-                block = {'hash': car_owner_add.hash, 'contents': response}
-                owner.update(block)
-
-                car_owner_add.save()
-
-                return owner
-
-            else:
-                return False
+        blockHash = hash_block(response)
+        car_owner_add.hash = blockHash
+        block = {'hash': car_owner_add.hash, 'contents': response}
+        owner.update(block)
+        car_owner_add.save()
+        return owner
 
 
 def _transferCar(request):
-    transfer = Details.objects.all()
-
+    transfer = Details.objects.filter(reg_id=request.data['reg'], vehicle_status=0,
+                                      national_id=request.data['national']).values()
     if transfer:
-        for trans in transfer:
-            exist_reg = trans.reg_id
-            new_reg = request.data['reg']
-
-            exist_status = trans.vehicle_status
-
-            if exist_reg == new_reg and exist_status == '0':
-                print('Vehicle Already Transferred')
-
+        return {'error': 'Vehicle Already Transferred'}
     else:
-
         transfer = dict()
 
         # Create the blockchain and add the previous car registration block
@@ -266,99 +240,73 @@ def _transferCar(request):
                                previous_owner_mobile=request.data['p_mobile'],
                                previous_owner_email=request.data['p_email'], previous_hash=car_trans.hash)
 
-        if car_transfer:
-            response = {'name': car_transfer.fullname, 'national': car_transfer.national_id,
-                        'mobile': car_transfer.mobile,
-                        'dob': car_transfer.dob,
-                        'pin': car_transfer.pin, 'email': car_transfer.email,
-                        'reg_no': car_transfer.reg_id,
-                        'type': car_transfer.vehicle_type,
-                        'make': car_transfer.make, 'model': car_transfer.vehicle_model,
-                        'year': car_transfer.year_of_manufacture,
-                        'previous_owner_name': car_transfer.previous_owner_name,
-                        'previous_owner_mobile': car_transfer.previous_owner_mobile,
-                        'previous_owner_email': car_transfer.previous_owner_email,
-                        'vehicle_status': car_transfer.vehicle_status,
-                        'parent_hash': car_transfer.previous_hash,
-                        'date_time': date.datetime.now()}
+        response = {'name': car_transfer.fullname, 'national': car_transfer.national_id,
+                    'mobile': car_transfer.mobile,
+                    'dob': car_transfer.dob,
+                    'pin': car_transfer.pin, 'email': car_transfer.email,
+                    'reg_no': car_transfer.reg_id,
+                    'type': car_transfer.vehicle_type,
+                    'make': car_transfer.make, 'model': car_transfer.vehicle_model,
+                    'year': car_transfer.year_of_manufacture,
+                    'previous_owner_name': car_transfer.previous_owner_name,
+                    'previous_owner_mobile': car_transfer.previous_owner_mobile,
+                    'previous_owner_email': car_transfer.previous_owner_email,
+                    'vehicle_status': car_transfer.vehicle_status,
+                    'parent_hash': car_transfer.previous_hash,
+                    'date_time': date.datetime.now()}
 
-            blockHash = hash_block(response)
-            car_transfer.hash = blockHash
-            block = {'hash': car_transfer.hash, 'contents': response}
-            transfer.update(block)
+        blockHash = hash_block(response)
+        car_transfer.hash = blockHash
+        block = {'hash': car_transfer.hash, 'contents': response}
+        transfer.update(block)
 
-            car_transfer.save()
-
-            return transfer
-
-        else:
-            return False
+        car_transfer.save()
+        return transfer
 
 
 def _confirmCar(request):
-    confirm_car = Details.objects.all()
-
     car_registration_edit = Owner.objects.get(owner_id=request.data['owner'])
     car_transfer_edit = Details.objects.get(owner_id=request.data['owner'])
 
+    confirm_car = Details.objects.filter(reg_id=car_transfer_edit.reg_id, vehicle_status=0,
+                                         owner_id=request.data['owner']).values()
     if confirm_car:
-        for car in confirm_car:
 
-            exist_reg = car.reg_id
-            new_reg = car_registration_edit.reg_id
+        confirm = dict()
+        # Create the blockchain and add the previous car registration block
+        car_registration_edit.vehicle_status = 'transferred'
+        car_transfer_edit.vehicle_status = '1'
+        # car_transfer_edit.save()
+        car_owner_add = Owner(fullname=car_transfer_edit.fullname, national_id=car_transfer_edit.national_id,
+                              mobile=car_transfer_edit.mobile,
+                              dob=car_transfer_edit.dob, pin=car_transfer_edit.pin,
+                              email=car_transfer_edit.email, reg_id=car_transfer_edit.reg_id,
+                              vehicle_type=car_transfer_edit.vehicle_type, make=car_transfer_edit.make,
+                              vehicle_model=car_transfer_edit.vehicle_model,
+                              year_of_manufacture=car_transfer_edit.year_of_manufacture,
+                              previous_hash=car_transfer_edit.previous_hash)
 
-            exist_status = car.vehicle_status
+        response = {'name': car_owner_add.fullname, 'national': car_owner_add.national_id,
+                    'mobile': car_owner_add.mobile, 'dob': car_owner_add.dob,
+                    'pin': car_owner_add.pin, 'email': car_owner_add.email,
+                    'reg_no': car_owner_add.reg_id, 'type': car_owner_add.vehicle_type,
+                    'make': car_owner_add.make, 'model': car_owner_add.vehicle_model,
+                    'year': car_owner_add.year_of_manufacture,
+                    'parent_hash': car_owner_add.previous_hash,
+                    'date_time': date.datetime.now()}
 
-            if exist_reg == new_reg and exist_status != '0':
-                print('Vehicle Transfer Already Accepted')
+        blockHash = hash_block(response)
+        car_owner_add.hash = blockHash
+        block = {'hash': car_owner_add.hash, 'contents': response}
+        car_registration_edit.save()
+        car_transfer_edit.save()
+        car_owner_add.save()
 
-            elif car_registration_edit and car_transfer_edit:
-                print('Welcome')
-                # car_registration_edit = Owner.objects.get(owner_id=request.data['owner'])
-                # car_transfer_edit = Details.objects.get(owner_id=request.data['owner'])
-
-                confirm = dict()
-
-                # Create the blockchain and add the previous car registration block
-
-
-                car_registration_edit.vehicle_status = 'transferred'
-                car_transfer_edit.vehicle_status = '1'
-                # car_transfer_edit.save()
-
-                car_owner_add = Owner(fullname=car_transfer_edit.fullname, national_id=car_transfer_edit.national_id,
-                                      mobile=car_transfer_edit.mobile,
-                                      dob=car_transfer_edit.dob, pin=car_transfer_edit.pin,
-                                      email=car_transfer_edit.email, reg_id=car_transfer_edit.reg_id,
-                                      vehicle_type=car_transfer_edit.vehicle_type, make=car_transfer_edit.make,
-                                      vehicle_model=car_transfer_edit.vehicle_model,
-                                      year_of_manufacture=car_transfer_edit.year_of_manufacture,
-                                      previous_hash=car_transfer_edit.previous_hash)
-
-                if car_owner_add:
-                    response = {'name': car_owner_add.fullname, 'national': car_owner_add.national_id,
-                                'mobile': car_owner_add.mobile, 'dob': car_owner_add.dob,
-                                'pin': car_owner_add.pin, 'email': car_owner_add.email,
-                                'reg_no': car_owner_add.reg_id, 'type': car_owner_add.vehicle_type,
-                                'make': car_owner_add.make, 'model': car_owner_add.vehicle_model,
-                                'year': car_owner_add.year_of_manufacture,
-                                'parent_hash': car_owner_add.previous_hash,
-                                'date_time': date.datetime.now()}
-
-                    blockHash = hash_block(response)
-                    car_owner_add.hash = blockHash
-                    block = {'hash': car_owner_add.hash, 'contents': response}
-                    car_registration_edit.save()
-                    car_transfer_edit.save()
-                    car_owner_add.save()
-
-                    confirm.update(block)
-
-                    return confirm
-
+        confirm.update(block)
+        return confirm
 
     else:
-        return False
+        return {'error': 'Vehicle Transfer Already Accepted'}
 
         # def _careg(request):
         #     car_reg = Vehicles.objects.all()

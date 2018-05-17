@@ -112,3 +112,13 @@ def login_user(request):
         return Response(user[0])
     else:
         return Response({'error': 'user not found'})
+
+
+@api_view(http_method_names=['GET'])
+@renderer_classes((JSONRenderer,))
+def searchuser(request, id):
+    user = Users.objects.filter(national_id=id).values()
+    if user:
+        return Response(user[0])
+    else:
+        return Response({'error': 'User not found'})
