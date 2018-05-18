@@ -42,6 +42,11 @@
         {##}
         {#            }#}
 
+        user = JSON.parse(localStorage.getItem('userProfile'));
+        if (user.national_id === 11111111) {
+            window.location.replace("/admin");
+        }
+
         function load_potential() {
             window.location.replace("/vehicle_confirmation_details");
 
@@ -147,7 +152,8 @@
                                         </button>
                                     </td>
                                     <td>
-                                        <a class="waves-effect waves-light btn orange " href="/vehicle_confirmation_details/{{ vehicle.transfer_id }}">
+                                        <a class="waves-effect waves-light btn orange "
+                                           href="/vehicle_confirmation_details/{{ vehicle.transfer_id }}">
                                             Details
                                         </a>
                                     </td>
@@ -155,7 +161,7 @@
                                 <div id="modal1" class="modal">
                                     <div class="modal-content">
                                         <h4>Block</h4>
-                                        <p>{{ vehicle }}</p>
+                                        <p>{{ vehicle.vehicle_block }}</p>
                                     </div>
                                     <div class="modal-footer">
                                         <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>

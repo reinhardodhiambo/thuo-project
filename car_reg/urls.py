@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from users.views import allUsers, addUsers, editUsers, login, register, administrator, login_user, searchuser
+from users.views import allUsers, addUsers, editUsers, login, register, administrator, login_user, searchuser, deactivateuser
 from vehicle_registration.views import index, addCarRegistrationView, carRegistration, carRegistrationOwner, \
     carTransfer, carTransferConfirmation, addCarDetails
 from vehicle_transfer.views import carOwner, carOwnerView
@@ -24,9 +24,11 @@ from vehicle_transfer_confirmation.views import carConfirmation, carConfirmation
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', index),
     url(r'^users/all_users$', allUsers, name='users'),
     url(r'^users/add_users$', addUsers, name='add_users'),
     url(r'^users/search/(?P<id>[^/]+)$', searchuser, name='search_user'),
+    url(r'^users/deactivate/(?P<id>[^/]+)$', deactivateuser, name='deactivate_user'),
     url(r'^users/edit_users$', editUsers, name='edit_users'),
     url(r'^user/login$', login_user),
     url(r'^vehicle_reg/add_vehicle$', carRegistration, name='add_vehicle'),

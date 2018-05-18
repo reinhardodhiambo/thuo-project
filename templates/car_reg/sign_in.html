@@ -33,10 +33,15 @@
         <![endif]-->
 
     <script type="text/javascript">
-        <!--
-        // Form validation code will come here.
 
-        var login = function () {
+        var user = {};
+         user = JSON.parse(localStorage.getItem('userProfile'));
+         if(user.national_id){
+              window.location.replace("/home");
+         }
+
+
+        function login() {
             var settings = {
                 "async": true,
                 "crossDomain": true,

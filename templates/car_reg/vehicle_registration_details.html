@@ -154,7 +154,8 @@
 
                                 <div class="row">
                                     <div class="col s4">
-                                        <button class="btn maroon waves-effect waves-light " type="button" onclick="add_vehicle()"
+                                        <button class="btn maroon waves-effect waves-light " type="button"
+                                                onclick="add_vehicle()"
                                                 id="addData">Submit
                                             <i class="material-icons right">send</i>
                                         </button>
@@ -181,6 +182,9 @@
 <script type="text/javascript">
     var user = {};
     user = JSON.parse(localStorage.getItem('userProfile'));
+    if (user.national_id === 11111111) {
+        window.location.replace("/admin");
+    }
     var car = {};
     car = JSON.parse(localStorage.getItem('carReg'));
     console.log(user);
@@ -203,7 +207,7 @@
     });
 
 
-    var add_vehicle = function (){
+    var add_vehicle = function () {
         console.log('before call');
         var settings = {
             "async": true,

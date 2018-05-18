@@ -39,7 +39,7 @@
 
 
             <li class="no-padding">
-                <a href="/home/" class="waves-effect waves-grey"><i class="material-icons">exit_to_app</i>Sign Out</a>
+                <a onclick="logout()" class="waves-effect waves-grey"><i class="material-icons">exit_to_app</i>Sign Out</a>
             </li>
         </ul>
         <div class="footer">
@@ -50,11 +50,19 @@
     <script>
         var user = {};
          user = JSON.parse(localStorage.getItem('userProfile'));
+         if(user===null){
+              window.location.replace("/signin");
+         }
         function transfer() {
             window.location.replace("/vehicle_owner/"+user.national_id);
         }
         function confirmation() {
             window.location.replace("/vehicle_confirmation/"+user.national_id);
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.replace("/signin");
         }
     </script>
 </aside>

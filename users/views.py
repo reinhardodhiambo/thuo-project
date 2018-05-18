@@ -8,14 +8,15 @@ from rest_framework.response import Response
 
 from general.models import Counties, SubCounty
 from users.models import Users
-
+from django.shortcuts import redirect
 
 def login(request):
     return render(request, template_name='car_reg/sign_in.html')
 
 
 def administrator(request):
-    return render(request, template_name='car_reg/admin.html')
+    users = Users.objects.all()
+    return render(request, 'car_reg/admin.html', {'users': users})
 
 
 def register(request):
@@ -107,7 +108,7 @@ def editUsers(request):
 @api_view(http_method_names=['POST'])
 @renderer_classes((JSONRenderer,))
 def login_user(request):
-    user = Users.objects.filter(national_id=request.data['id'], password=request.data['password']).values()
+    user = Users.objects.filter(national_id=request.data['id'], password=request.data['password'], status='active').values()
     if user:
         return Response(user[0])
     else:
@@ -122,3 +123,18 @@ def searchuser(request, id):
         return Response(user[0])
     else:
         return Response({'error': 'User not found'})
+
+
+@api_view(http_method_names=['GET'])
+@renderer_classes((JSONRenderer,))
+def deactivateuser(request, id):
+    user = Users.objects.get(national_id=id)
+    if user:
+        if user.status == 'active':
+            user.status = 'inactive'
+        else:
+            user.status = 'active'
+        user.save()
+        return redirect('admin')
+    else:
+        return redirect('admin')

@@ -56,10 +56,20 @@ from vehicle_transfer.models import Details
 # Launch Page
 def carConfirmation(request, user):
     vehicles = Details.objects.filter(national_id=user, vehicle_status=0).values()
-    return render(request, 'car_reg/vehicle_transfer_confirmation_status.html', {'vehicles': vehicles})
+    vehicle_blocks = []
+    for vehicle in vehicles:
+        vehicle_block = Owner.objects.filter(reg_id=vehicle['reg_id']).values()
+        v = {
+            'previous_owner_name': vehicle['previous_owner_name'], 'national_id': vehicle['national_id'],
+            'previous_owner_mobile': vehicle['previous_owner_mobile'],
+            'dob': vehicle['dob'], 'transfer_id': vehicle['transfer_id'], 'vehicle_block': vehicle_block
+        }
+
+        vehicle_blocks.append(v)
+    return render(request, 'car_reg/vehicle_transfer_confirmation_status.html', {'vehicles': vehicle_blocks})
 
 
 # Car Owner View
-def carConfirmationView(request,transfer):
+def carConfirmationView(request, transfer):
     vehicle = Details.objects.get(transfer_id=transfer)
     return render(request, 'car_reg/vehicle_transfer_confirmation_status_view.html', {'vehicle': vehicle})

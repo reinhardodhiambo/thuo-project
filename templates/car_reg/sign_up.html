@@ -33,46 +33,6 @@
         <script src="http://oss.maxcdn.com/respond/1.4.2/respond.min.js' %}"></script>
         <![endif]-->
 
-    <script type="text/javascript">
-        <!--
-        // Form validation code will come here.
-        $(document).ready(function () {
-            var today = new Date();
-            var eightyearsago = today.setFullYear( today.getFullYear() - 18);
-            $('.datepicker').pickadate({selectYears: 4, format: 'YYYY-MM-DD'});
-        });
-
-        function validate() {
-
-            if (document.myForm.Name.value == "") {
-                //alert( "Please provide your name!" );
-
-                document.myForm.Name.focus();
-                return false;
-            }
-
-            if (document.myForm.EMail.value == "") {
-                alert("Please provide your Email!");
-                document.myForm.EMail.focus();
-                return false;
-            }
-
-        }
-        //-->
-        function validateEmail() {
-            var emailID = document.myForm.EMail.value;
-            atpos = emailID.indexOf("@");
-            dotpos = emailID.lastIndexOf(".");
-
-            if (atpos < 1 || ( dotpos - atpos < 2 )) {
-                alert("Please enter correct email ID")
-                document.myForm.EMail.focus();
-                return false;
-            }
-            return ( true );
-        }
-    </script>
-
 </head>
 <body class="signin-page">
 <div class="loader-bg"></div>
@@ -163,11 +123,12 @@
                                                data-success="Valid Email">Email</label>
                                     </div>
                                     <div class="input-field col m6 s12">
-                                        <input id="pin" type="text" name="pin" class="validate" required>
+                                        <input id="pin" type="text" name="pin" class="validate" size="11" required>
                                         <label for="pin">PIN Number</label>
                                     </div>
                                     <div class="input-field col m6 s12">
-                                        <input id="national" type="text" name="national" class="validate" required>
+                                        <input id="national" type="text" name="national" class="validate" maxlength="8"
+                                               minlength="6" required>
                                         <label for="national">ID Number</label>
                                     </div>
                                     <div class="input-field col m6 s12">
@@ -193,6 +154,8 @@
                                     </div>
                                     <div class="input-field col m6 s12">
                                         <input id="password" type="password" name="password" class="validate" required>
+                                        <button onclick="if (password.type == 'text') password.type = 'password';else password.type = 'text';">show
+                                        </button>
                                         <label for="password">Password</label>
                                     </div>
                                     <div class="col s12 right-align">
@@ -225,6 +188,58 @@
 <script src="{% static 'car_reg/assets/plugins/jquery-blockui/jquery.blockui.js' %}"></script>
 <script src="{% static 'car_reg/assets/js/alpha.min.js' %}"></script>
 <script src="{% static 'car_reg/assets/js/pages/form_elements.js' %}"></script>
+<script type="text/javascript">
+    <!--
+    // Form validation code will come here.
+
+    $(document).ready(function () {
+
+    });
+
+    var eighteenYearsAgo = new Date();
+    eighteenYearsAgo = eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
+    $('.datepicker').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 4, // Creates a dropdown of 15 years to control year,
+        today: 'Today',
+        clear: 'Clear',
+        close: 'Ok',
+        closeOnSelect: false, // Close upon selecting a date,
+        container: undefined,// ex. 'body' will append picker to body
+        format: 'yyyy-mm-dd',
+        max: new Date(2000, 5, 19)
+    });
+
+    function validate() {
+
+        if (document.myForm.Name.value == "") {
+            //alert( "Please provide your name!" );
+
+            document.myForm.Name.focus();
+            return false;
+        }
+
+        if (document.myForm.EMail.value == "") {
+            alert("Please provide your Email!");
+            document.myForm.EMail.focus();
+            return false;
+        }
+
+    }
+    //-->
+    function validateEmail() {
+        var emailID = document.myForm.EMail.value;
+        atpos = emailID.indexOf("@");
+        dotpos = emailID.lastIndexOf(".");
+
+        if (atpos < 1 || ( dotpos - atpos < 2 )) {
+            alert("Please enter correct email ID")
+            document.myForm.EMail.focus();
+            return false;
+        }
+        return ( true );
+    }
+</script>
 
 {#		<?php if(isset($error)){?>#}
 {#		<script>#}
