@@ -84,70 +84,70 @@
 									Back
 								</a>
                                 <div class="row">
-                                    <form action="" method="POST" class="col s12">
+                                    <form class="col s12">
 
                                     {% csrf_token %}
 
                                         <div class="row">
                                             <br><p><b>Particulars of Vehicle</b></p>
                                             <div class="input-field col s12 m6">
-                                                <input name="reg" id="reg" type="text"  class="validate" required>
+                                                <input name="reg" id="reg" type="text" value="{{ vehicle.reg_id }}"  readonly>
 												<label for="value">*Car Plate Number</label>
                                             </div>
                                             <div class="input-field col s12 m6">
-                                                <input name="type" id="type" type="text"  class="validate" required>
+                                                <input name="type" id="type" type="text"  value="{{ vehicle.vehicle_type }}" readonly>
 												<label for="value">*Vehicle Type</label>
                                             </div>
                                             <div class="input-field col s12 m6">
-                                                <input name="make" id="make" type="text"  class="validate" required>
+                                                <input name="make" id="make" type="text"  value="{{ vehicle.make }}" readonly>
 												<label for="value">*Vehicle Make</label>
                                             </div>
                                             <div class="input-field col s12 m6">
-                                                <input name="model" id="model" type="text"  class="validate" required>
+                                                <input name="model" id="model" type="text" value="{{ vehicle.vehicle_model }}" readonly>
 												<label for="value">*Vehicle Model</label>
                                             </div>
 
                                             <br><p><b>New Owner Details</b></p>
                                             <div class="input-field col s12 m6">
-                                                <input name="name" id="name" type="text"  class="validate" required>
+                                                <input name="name" id="name" type="text"  value="{{ vehicle.fullname }}" readonly>
 												<label for="value">*Full Names</label>
                                             </div>
                                             <div class="input-field col s12 m6">
-                                                <input name="national" id="national" type="text"  class="validate" required>
+                                                <input name="national" id="national" type="text"  value="{{ vehicle.national_id }}" readonly>
 												<label for="value">*ID Number</label>
                                             </div>
                                             <div class="input-field col s12 m6">
-                                                <input name="mobile" id="mobile" type="number"  class="validate" required>
+                                                <input name="mobile" id="mobile" type="number"  value="{{ vehicle.mobile }}" readonly>
 												<label for="value">*Mobile Phone Number</label>
                                             </div>
                                             <div class="input-field col s12 m6">
-                                                <input name="dob" id="dob" type="text"  class="validate" required>
+                                                <input name="dob" id="dob" type="text"  value="{{ vehicle.dob }}" readonly>
 												<label for="value">*Date of Birth</label>
                                             </div>
                                             <div class="input-field col s12 m6">
-                                                <input name="pin" id="pin" type="text"  class="validate" required>
+                                                <input name="pin" id="pin" type="text"  value="{{ vehicle.pin }}" readonly>
 												<label for="value">*PIN Number</label>
                                             </div>
                                             <div class="input-field col s12 m6">
-                                                <input name="email" id="email" type="text"  class="validate" required>
+                                                <input name="email" id="email" type="text"  value="{{ vehicle.email }}" readonly>
 												<label for="value">*Email</label>
                                             </div>
 
                                             <p><b>Previous Owner Details</b></p>
                                             <div class="input-field col s12 m6">
-                                                <input name="p_name" id="p_name" type="text"  class="validate" required>
+                                                <input name="p_name" id="p_name" type="text"  value="{{ vehicle.previous_owner_name }}" readonly>
 												<label for="value">*Full Names</label>
                                             </div>
                                             <div class="input-field col s12 m6">
-                                                <input name="p_mobile" id="p_mobile" type="number"  class="validate" required>
+                                                <input name="p_mobile" id="p_mobile" type="number" value="{{ vehivle.previous_owner_mobile }}" readonly>
 												<label for="value">*Mobile Phone Number</label>
                                             </div>
                                             <div class="input-field col s12 m6">
-                                                <input name="p_email" id="p_email" type="text"  class="validate" required>
+                                                <input name="p_email" id="p_email" type="text"  value="{{ vehicle.previous_owner_email }}" readonly>
 												<label for="value">*Email</label>
                                             </div>
                                             <div class="input-field col s12 m6">
-                                                <input name="model" id="model" type="text"  class="validate" required>
+                                                <input name="model" id="model" type="text"  value="{{ vehicle.hash }}">
 												<label for="value">*Previous Hash</label>
                                             </div>
 
@@ -158,12 +158,12 @@
 
 										<div class="row">
 											<div class="col s4">
-												<button class="btn maroon waves-effect waves-light " type="submit" name="submit" id="addData">Accept
+												<a class="btn maroon waves-effect waves-light" onclick="transfer()" id="addData">Accept
 													<i class="material-icons right">send</i>
-												</button>
-                                                <button class="btn maroon waves-effect waves-light " type="submit" name="submit" id="addData">Decline
+												</a>
+                                                <a class="btn maroon waves-effect waves-light " onclick="window.history.go(-1);">Decline
 													<i class="material-icons right">send</i>
-												</button>
+												</a>
 											</div>
 										</div>
                                     </form>
@@ -188,42 +188,30 @@
 
     <script type="text/javascript">
 
-            $("#addData").click(function (e) {
-                e.preventDefault();
-                var address = ["/agriculture/add_land_potential"];
-                var arrayLength = address.length;
-                for (var i = 0; i < arrayLength; i++) {
-
+            function transfer() {
                     var settings = {
                         "async": true,
                         "crossDomain": true,
-                        "url": address[i],
+                        "url": '/vehicle_reg/confirm_vehicle_transfer',
                         "method": "POST",
                         "headers": {
                             "content-type": "application/x-www-form-urlencoded",
-                            "cache-control": "no-cache",
+                            "cache-control": "no-cache"
                         },
                         "data": {
-                            "county": $('#county_id').val(),
-                            "sub_county": $('#sub_county').val(),
-                            "potential": $('#potential').val(),
-                            "value": $('#value').val(),
+                            "owner": {{ vehicle.owner_id }}
                         }
-                    }
-                    $('#county_id').val('');
-                    $('#sub_county').val('');
-                    $('#potential').val('');
-                    $('#value').val('');
-                    //console.log("Adding", $('#county_id').val(), $('#sub_county').val(), $('#divisions').val(), $('#locations').val(), $('#sub_locations').val());
-
-
+                    };
                     $.ajax(settings).done(function (response) {
-                        alert("Record Added");
                         console.log(response);
+                        if(!response.error){
+                           window.history.go(-1);
+                        }else {
+                             Materialize.toast('Vehicle Transfer Already Accepted', 3000, 'rounded')
+                        }
                     });
-                }
 
-            })
+            }
 
         </script>
 

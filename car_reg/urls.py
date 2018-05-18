@@ -42,6 +42,6 @@ urlpatterns = [
     url(r'^vehicle_registration$', addCarRegistrationView, name='vehicle_registration'),
     url(r'^vehicle_owner/(?P<user>[^/]+)/$', carOwner, name='vehicle_owner'),
     url(r'^vehicle_owner_details/(?P<vehicle>[^/]+)/$', carOwnerView, name='vehicle_owner_details'),
-    url(r'^vehicle_confirmation$', carConfirmation, name='vehicle_confirmation'),
-    url(r'^vehicle_confirmation_details$', carConfirmationView, name='vehicle_confirmation_details'),
+    url(r'^vehicle_confirmation/(?P<user>[^/]+)/$', carConfirmation, name='vehicle_confirmation'),
+    url(r'^vehicle_confirmation_details/(?P<transfer>[^/]+)/$', carConfirmationView, name='vehicle_confirmation_details'),
 ]

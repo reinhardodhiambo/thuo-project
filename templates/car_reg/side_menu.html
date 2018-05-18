@@ -14,9 +14,6 @@
     </nav>
 </header>
 
-{#<?php //$url = "http://" . $_SERVER['SERVER_NAME']."/" ;#}
-{#	$url = "http://192.168.170.227/knbs/";#}
-{# ?>#}
 
 <aside id="slide-out" class="side-nav white fixed collapsible ">
     <div class="side-nav-wrapper">
@@ -36,7 +33,7 @@
                         class="material-icons">local_pharmacy</i>Transfer Ownership</a>
             </li>
             <li class="no-padding ">
-                <a class="waves-effect waves-grey" href="/vehicle_confirmation"><i class="material-icons">monetization_on</i>Confirm
+                <a class="waves-effect waves-grey" onclick="confirmation()"><i class="material-icons">monetization_on</i>Confirm
                     Ownership</a>
             </li>
 
@@ -51,10 +48,13 @@
         </div>
     </div>
     <script>
+        var user = {};
+         user = JSON.parse(localStorage.getItem('userProfile'));
         function transfer() {
-            var user = {};
-            user = JSON.parse(localStorage.getItem('userProfile'));
             window.location.replace("/vehicle_owner/"+user.national_id);
+        }
+        function confirmation() {
+            window.location.replace("/vehicle_confirmation/"+user.national_id);
         }
     </script>
 </aside>

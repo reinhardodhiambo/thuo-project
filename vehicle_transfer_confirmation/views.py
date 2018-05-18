@@ -10,7 +10,11 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
 from vehicle_transfer.models import Owner
-#from vehicle_transfer_confirmation.models import Status
+
+from vehicle_transfer.models import Details
+
+
+# from vehicle_transfer_confirmation.models import Status
 
 # # Confirm Vehicle Transfer
 # @api_view(http_method_names=['POST'])
@@ -50,9 +54,12 @@ from vehicle_transfer.models import Owner
 #     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 # Launch Page
-def carConfirmation(request):
-    return render(request, 'car_reg/vehicle_transfer_confirmation_status.html')
+def carConfirmation(request, user):
+    vehicles = Details.objects.filter(national_id=user, vehicle_status=0).values()
+    return render(request, 'car_reg/vehicle_transfer_confirmation_status.html', {'vehicles': vehicles})
+
 
 # Car Owner View
-def carConfirmationView(request):
-    return render(request, 'car_reg/vehicle_transfer_confirmation_status_view.html')
+def carConfirmationView(request,transfer):
+    vehicle = Details.objects.get(transfer_id=transfer)
+    return render(request, 'car_reg/vehicle_transfer_confirmation_status_view.html', {'vehicle': vehicle})
