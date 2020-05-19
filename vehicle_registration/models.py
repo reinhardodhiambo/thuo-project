@@ -14,6 +14,7 @@ class Vehicles(models.Model):
     year_of_manufacture = models.CharField(max_length=10)
     previous_hash = models.CharField(max_length=100, default='0')
     hash = models.CharField(max_length=100)
+    timestamp = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
         db_table = 'Vehicles'
@@ -36,6 +37,7 @@ class Owner(models.Model):
     vehicle_status = models.CharField(max_length=20, default='owned')
     previous_hash = models.CharField(max_length=100)
     hash = models.CharField(max_length=100)
+    timestamp = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
         db_table = 'Vehicle_Owner'

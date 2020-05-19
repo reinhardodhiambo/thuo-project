@@ -1,26 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d79d4450-5387-4a54-9ed5-4215626eff24" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/car_reg/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/car_reg/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/general/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/general/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/car_reg/admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/car_reg/admin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/car_reg/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/car_reg/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/car_reg/sign_in.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/car_reg/sign_in.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/car_reg/sign_up.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/car_reg/sign_up.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/car_reg/vehicle_registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/car_reg/vehicle_registration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/car_reg/vehicle_registration_details.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/car_reg/vehicle_registration_details.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/car_reg/vehicle_transfer_confirmation_status.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/car_reg/vehicle_transfer_confirmation_status.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/car_reg/vehicle_transfer_confirmation_status_view.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/car_reg/vehicle_transfer_confirmation_status_view.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/car_reg/vehicle_transfer_owner.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/car_reg/vehicle_transfer_owner.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/car_reg/vehicle_transfer_owner_view.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/car_reg/vehicle_transfer_owner_view.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle_registration/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle_registration/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle_transfer/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle_transfer/models.py" afterDir="false" />
-    </list>
+    <list default="true" id="d79d4450-5387-4a54-9ed5-4215626eff24" name="Default" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

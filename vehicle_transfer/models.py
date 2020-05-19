@@ -28,6 +28,7 @@ class Details(models.Model):
                                       default='0')  # 0 = not accepted transfer AND 1 = accepted transfer AND 11 = transferred more than once
     previous_hash = models.CharField(max_length=100)
     hash = models.CharField(max_length=100)
+    timestamp = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
         db_table = 'Vehicles_Transfered'

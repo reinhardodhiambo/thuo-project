@@ -23,6 +23,7 @@ class Users(models.Model):
     password = models.CharField(max_length=300)
     status = models.CharField(max_length=20, default='active')
     user_type = models.IntegerField(null=True)
+    timestamp = models.DateTimeField(auto_now_add=True, null=True)
 
     class Meta:
         db_table = 'Users'
