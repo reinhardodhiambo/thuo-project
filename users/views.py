@@ -10,6 +10,7 @@ from general.models import Counties, SubCounty
 from users.models import Users
 from django.shortcuts import redirect
 
+
 def login(request):
     return render(request, template_name='car_reg/sign_in.html')
 
@@ -58,7 +59,7 @@ def addUsers(request):
                       national_id=request.data['national'], nationality=request.data['nationality'],
                       physical_address=request.data['address'],
                       box=request.data['box'], code=request.data['code'], town=request.data['town'],
-                      password=request.data['password'])
+                      password=request.data['password'], user_type=request.data['user_type'])
 
     if users_add:
         users_add.save()
@@ -108,7 +109,8 @@ def editUsers(request):
 @api_view(http_method_names=['POST'])
 @renderer_classes((JSONRenderer,))
 def login_user(request):
-    user = Users.objects.filter(national_id=request.data['id'], password=request.data['password'], status='active').values()
+    user = Users.objects.filter(national_id=request.data['id'], password=request.data['password'],
+                                status='active').values()
     if user:
         return Response(user[0])
     else:

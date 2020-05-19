@@ -11,7 +11,7 @@
     <meta name="keywords" content="admin,dashboard,sign_in,loyaltyclub"/>
     <meta name="author" content="Ron"/>
 
-    {% load staticfiles %}
+    {% load static %}
 
     <!-- Styles -->
     <link type="text/css" rel="stylesheet"
@@ -29,9 +29,9 @@
     <!-- HTML5 shim and Respond.js' %} for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js' %} doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-        <script src="http://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js' %}"></script>
-        <script src="http://oss.maxcdn.com/respond/1.4.2/respond.min.js' %}"></script>
-        <![endif]-->
+    <script src="http://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js' %}"></script>
+    <script src="http://oss.maxcdn.com/respond/1.4.2/respond.min.js' %}"></script>
+    <![endif]-->
 
 </head>
 <body class="signin-page">
@@ -94,6 +94,12 @@
                             <span class="card-title" style="text-align:center;"><h5>CarReg</h5></span>
                             <div class="row">
                                 <form class="col s12" action="/users/add_users" method="post">
+                                    <div class="input-field col s12">
+                                        <select name="user_type" id="type">
+                                            <option value="2">Agent</option>
+                                            <option value="3">Owner</option>
+                                        </select>
+                                    </div>
                                     <div class="input-field col m6 s12">
                                         <input id="name" type="text" name="name" class="validate" required>
                                         <label for="name">Full Names</label>
@@ -154,13 +160,16 @@
                                     </div>
                                     <div class="input-field col m6 s12">
                                         <input id="password" type="password" name="password" class="validate" required>
-                                        <button onclick="if (password.type == 'text') password.type = 'password';else password.type = 'text';">show
+                                        <button onclick="if (password.type == 'text') password.type = 'password';else password.type = 'text';">
+                                            show
                                         </button>
                                         <label for="password">Password</label>
                                     </div>
                                     <div class="col s12 right-align">
-                                        {% comment %}<a href="/signin" class="btn maroon waves-effect waves-light m-b-xs">Sign Up</a>{% endcomment %}
-                                        {#													<a href="/" class="white waves-effect waves-light btn m-b-xs">Sign Up</a>#}
+                                        {% comment %}<a href="/signin"
+                                                        class="btn maroon waves-effect waves-light m-b-xs">Sign Up</a>
+                                        {% endcomment %}
+                                        {# <a href="/" class="white waves-effect waves-light btn m-b-xs">Sign Up</a>#}
                                         <button class="btn maroon waves-effect waves-light m-b-xs" type="submit"
                                                 name="signin">Sign Up
                                         </button>
@@ -168,9 +177,12 @@
                                     <div class="col s12 left-align">
                                         <a href="/home" class="waves-red">Sign In</a>
                                     </div>
-                                    {#                                               <div class="col s12 left-align">#}
-                                    {#												   <a href="forgot.html" class="waves-red">Forgot Password?</a>#}
-                                    {#                                               </div>#}
+                                    {#
+                                    <div class="col s12 left-align">#}
+                                        {# <a href="forgot.html" class="waves-red">Forgot Password?</a>#}
+                                        {#
+                                    </div>
+                                    #}
                                 </form>
                             </div>
                         </div>
@@ -239,15 +251,21 @@
         }
         return ( true );
     }
+
+
 </script>
 
-{#		<?php if(isset($error)){?>#}
-{#		<script>#}
+{#        <?php if(isset($error)){?>#}
+{#
+<script>#}
 {#			$( document ).ready(function() {#}
 {#			Materialize.toast("<?php echo $message;?>", 4000)#}
 {#			});#}
-{#		</script>#}
-{#		<?php } ?>#}
+{#
+
+</script>
+#}
+{#        <?php } ?>#}
 
 </body>
 </html>

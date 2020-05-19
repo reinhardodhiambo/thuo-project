@@ -11,7 +11,7 @@
     <meta name="keywords" content="admin,dashboard"/>
     <meta name="author" content="Ron"/>
 
-    {% load staticfiles %}
+    {% load static %}
     <!-- Styles -->
     <link type="text/css" rel="stylesheet"
           href="{% static 'car_reg/assets/plugins/materialize/css/materialize.min.css' %}"/>
@@ -217,6 +217,13 @@
     }
 
     var search_user = function () {
+    console.log('NAtional',$('#national').val()+" "+user.national_id);
+    if(parseInt(user.national_id) === parseInt($('#national').val())){
+     Materialize.toast('You can not transfer vehicle to self', 3000, 'rounded');
+     return;
+    }else{
+
+    }
         var settings = {
             "async": true,
             "crossDomain": true,
