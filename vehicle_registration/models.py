@@ -6,7 +6,7 @@ import uuid
 
 
 class Vehicles(models.Model):
-    uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
+    transaction_id = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     reg_no = models.CharField(primary_key=True, max_length=50)
     vehicle_type = models.CharField(max_length=50)
     make = models.CharField(max_length=50)
@@ -21,7 +21,7 @@ class Vehicles(models.Model):
 
 
 class Owner(models.Model):
-    uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
+    transaction_id = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     owner_id = models.AutoField(primary_key=True)
     fullname = models.CharField(max_length=50)
     national = models.ForeignKey(Users, on_delete=models.CASCADE, )

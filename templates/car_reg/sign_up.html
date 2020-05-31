@@ -93,38 +93,27 @@
                         <div class="card-content ">
                             <span class="card-title" style="text-align:center;"><h5>CarReg</h5></span>
                             <div class="row">
-                                <form class="col s12" action="/users/add_users" method="post">
+                                <form class="col s12" action="/users/add_users" method="post" novalidate>
                                     <div class="input-field col s12">
                                         <select name="user_type" id="type">
-                                            <option value="2">Agent</option>
                                             <option value="3">Owner</option>
+                                            <option value="2">Agent</option>
                                         </select>
                                     </div>
                                     <div class="input-field col m6 s12">
                                         <input id="name" type="text" name="name" class="validate" required>
                                         <label for="name">Full Names</label>
                                     </div>
-                                    <div class="input-field col m6 s12">
-                                        <select name="gender" id="gender">
-                                            <option value="Male">Male</option>
-                                            <option value="Female">Female</option>
-                                        </select>
-                                    </div>
-                                    <div class="input-field col m6 s12">
-                                        <input id="dob" type="text" name="dob" class="validate datepicker" required>
+                                    <div class="input-field col m6 s12" id="dobs">
+                                        <input id="dob" type="text" name="dob" class="validate datepicker">
                                         <label for="dob">Date of Birth</label>
                                     </div>
-                                    <div class="input-field col m6 s12">
-                                        <input id="occupation" type="text" name="occupation" class="validate"
-                                               required>
-                                        <label for="occupation">Occupation</label>
-                                    </div>
-                                    <div class="input-field col m6 s12">
-                                        <input id="mobile" type="text" name="mobile" class="validate" required>
+                                    <div class="input-field col m6 s12" id="mobiles">
+                                        <input id="mobile" type="text" name="mobile" class="validate">
                                         <label for="mobile">Mobile</label>
                                     </div>
-                                    <div class="input-field col m6 s12">
-                                        <input id="email" type="email" name="email" class="validate" required>
+                                    <div class="input-field col m6 s12" id="emails">
+                                        <input id="email" type="email" name="email" class="validate">
                                         <label for="email" data-error="Invalid Email"
                                                data-success="Valid Email">Email</label>
                                     </div>
@@ -132,57 +121,28 @@
                                         <input id="pin" type="text" name="pin" class="validate" size="11" required>
                                         <label for="pin">PIN Number</label>
                                     </div>
-                                    <div class="input-field col m6 s12">
+                                    <div class="input-field col m6 s12" id="nationals">
                                         <input id="national" type="text" name="national" class="validate" maxlength="8"
-                                               minlength="6" required>
+                                               minlength="6">
                                         <label for="national">ID Number</label>
                                     </div>
                                     <div class="input-field col m6 s12">
-                                        <input id="nationality" type="text" name="nationality" class="validate"
-                                               required>
-                                        <label for="nationality">Nationality</label>
-                                    </div>
-                                    <div class="input-field col m6 s12">
-                                        <input id="address" type="text" name="address" class="validate" required>
-                                        <label for="address">Physical Address</label>
-                                    </div>
-                                    <div class="input-field col m6 s12">
-                                        <input id="box" type="text" name="box" class="validate" required>
-                                        <label for="box">Box Number</label>
-                                    </div>
-                                    <div class="input-field col m6 s12">
-                                        <input id="code" type="text" name="code" class="validate" required>
-                                        <label for="code">Postal Code</label>
-                                    </div>
-                                    <div class="input-field col m6 s12">
-                                        <input id="town" type="text" name="town" class="validate" required>
-                                        <label for="town">Town</label>
-                                    </div>
-                                    <div class="input-field col m6 s12">
                                         <input id="password" type="password" name="password" class="validate" required>
-                                        <button onclick="if (password.type == 'text') password.type = 'password';else password.type = 'text';">
-                                            show
-                                        </button>
                                         <label for="password">Password</label>
                                     </div>
+                                     <div class="input-field col m6 s12">
+                                        <input id="confirmpassword" type="password" name="confirmpassword" class="validate" required>
+                                        <label for="confirmpassword">Confirm Password</label>
+                                    </div>
                                     <div class="col s12 right-align">
-                                        {% comment %}<a href="/signin"
-                                                        class="btn maroon waves-effect waves-light m-b-xs">Sign Up</a>
-                                        {% endcomment %}
-                                        {# <a href="/" class="white waves-effect waves-light btn m-b-xs">Sign Up</a>#}
-                                        <button class="btn maroon waves-effect waves-light m-b-xs" type="submit"
-                                                name="signin">Sign Up
+
+                                        <button class="btn maroon waves-effect waves-light m-b-xs" type="submit" id="submit"
+                                                name="submit">Sign Up
                                         </button>
                                     </div>
                                     <div class="col s12 left-align">
                                         <a href="/home" class="waves-red">Sign In</a>
                                     </div>
-                                    {#
-                                    <div class="col s12 left-align">#}
-                                        {# <a href="forgot.html" class="waves-red">Forgot Password?</a>#}
-                                        {#
-                                    </div>
-                                    #}
                                 </form>
                             </div>
                         </div>
@@ -204,9 +164,33 @@
     <!--
     // Form validation code will come here.
 
+    $("#submit").click(function () {
+            var password = $("#password").val();
+            var confirmPassword = $("#confirmpassword").val();
+            if (password != confirmPassword) {
+                alert("Passwords do not match.");
+                return false;
+            }
+            return true;
+        });
+
     $(document).ready(function () {
 
     });
+
+    $('#type').on('change', function () {
+    if(this.value === "3"){
+        $("#dobs").show();
+        $("#mobiles").show();
+        $("#emails").show();
+        $("#nationals").show();
+    } else {
+        $("#dobs").hide();
+        $("#mobiles").hide();
+        $("#emails").hide();
+        $("#nationalss").hide();
+    }
+});
 
     var eighteenYearsAgo = new Date();
     eighteenYearsAgo = eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
@@ -224,48 +208,14 @@
 
     function validate() {
 
-        if (document.myForm.Name.value == "") {
-            //alert( "Please provide your name!" );
 
-            document.myForm.Name.focus();
-            return false;
-        }
-
-        if (document.myForm.EMail.value == "") {
-            alert("Please provide your Email!");
-            document.myForm.EMail.focus();
-            return false;
-        }
 
     }
     //-->
-    function validateEmail() {
-        var emailID = document.myForm.EMail.value;
-        atpos = emailID.indexOf("@");
-        dotpos = emailID.lastIndexOf(".");
 
-        if (atpos < 1 || ( dotpos - atpos < 2 )) {
-            alert("Please enter correct email ID")
-            document.myForm.EMail.focus();
-            return false;
-        }
-        return ( true );
-    }
 
 
 </script>
-
-{#        <?php if(isset($error)){?>#}
-{#
-<script>#}
-{#			$( document ).ready(function() {#}
-{#			Materialize.toast("<?php echo $message;?>", 4000)#}
-{#			});#}
-{#
-
-</script>
-#}
-{#        <?php } ?>#}
 
 </body>
 </html>

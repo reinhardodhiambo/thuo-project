@@ -7,7 +7,7 @@ import uuid
 
 
 class Details(models.Model):
-    uuid = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
+    transaction_id = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     transfer_id = models.AutoField(primary_key=True)
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE, )
     fullname = models.CharField(max_length=50)
