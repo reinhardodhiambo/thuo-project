@@ -53,12 +53,12 @@ def allUsers(request):
 def addUsers(request):
     users_add = None
 
-    if request.data['user_type'] == 3:
+    if request.data['user_type'] == '3':
         users_add = Users(fullname=request.data['name'], dob=request.data['dob'],
                           mobile=request.data['mobile'], email=request.data['email'], pin=request.data['pin'],
                           national_id=request.data['national'],
                           password=request.data['password'], user_type=request.data['user_type'])
-    else:
+    elif request.data['user_type'] == '2':
         users_add = Users(fullname=request.data['name'],  pin=request.data['pin'],
                           national_id=request.data['national'],
                           password=request.data['password'], user_type=request.data['user_type'])
